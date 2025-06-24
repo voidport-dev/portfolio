@@ -261,11 +261,11 @@ function App() {
       <h1 className="fixed top-0 left-0 m-4 text-whitei text-2xl">
         Alexander Prokopenko
       </h1>
-      <div className="fixed top-0 right-0 flex gap-2 m-4 z-2">
+      <div className="fixed top-8 left-0 md:top-0 md:left-[unset] md:right-0 flex gap-2 m-4 z-2">
         <a
           href="mailto:axndrpr@gmail.com"
           target="_blank"
-          className="flex items-center justify-center gap-2 hover:opacity-60 w-full cursor-pointer ease-in-out duration-300  "
+          className="flex items-center justify-center gap-2 hover:opacity-60  cursor-pointer ease-in-out duration-300"
         >
           <MailIcon />
           axndrpr@gmail.com

@@ -122,7 +122,9 @@ const ProjectCard = ({
                         {company}
                       </a>
                     )}
-                    <p className="text-gray-400">{employmentType}</p>
+                    <p className="text-gray-400 whitespace-nowrap text-sm md:text-base">
+                      {employmentType}
+                    </p>
                   </div>
                   <div className="flex md:flex-row flex-col md:items-center gap-2">
                     <h3 className="text-xl md:text-2xl font-bold">{title}</h3>
