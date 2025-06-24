@@ -19,17 +19,17 @@ const calculateDuration = (start: Date, end: Date) => {
   const diffMs = end.getTime() - start.getTime();
   const diffMonths = diffMs / (1000 * 60 * 60 * 24 * 30.4375);
 
-  const years = Math.floor(diffMonths / 12);
-  const months = Math.round(diffMonths % 12);
-
-  if (years > 0 && months > 0) {
-    return `${years} year${years > 1 ? "s" : ""} and ${months} month${
-      months > 1 ? "s" : ""
-    }`;
-  } else if (years > 0) {
-    return `${years} year${years > 1 ? "s" : ""}`;
+  if (diffMonths >= 12) {
+    const years = Math.floor(diffMonths / 12);
+    const months = Math.round(diffMonths % 12);
+    const yearStr = `${years} year${years > 1 ? "s" : ""}`;
+    const monthStr =
+      months > 0 ? ` ${months} month${months > 1 ? "s" : ""}` : "";
+    return `${yearStr}${monthStr}`;
   } else {
-    return `${months} month${months > 1 ? "s" : ""}`;
+    return `${Math.round(diffMonths)} month${
+      Math.round(diffMonths) > 1 ? "s" : ""
+    }`;
   }
 };
 
