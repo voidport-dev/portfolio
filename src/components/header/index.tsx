@@ -1,7 +1,13 @@
 import { MailIcon } from "lucide-react";
 import GithubIcon from "@assets/github.svg?react";
 import LinkedInIcon from "@assets/linkedin.svg?react";
-import { useEffect, useState, useRef, useCallback } from "react";
+import {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useLayoutEffect,
+} from "react";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { useSetAtom } from "jotai";
 import { cursorAtom } from "@/store";
@@ -130,7 +136,7 @@ export const Header = () => {
     setCursorRef.current = setCursor;
   }, [setCursor]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let cumulativeDelay = 0;
     const timeouts: NodeJS.Timeout[] = [];
 
@@ -155,7 +161,8 @@ export const Header = () => {
     return () => {
       timeouts.forEach((timeout) => clearTimeout(timeout));
     };
-  }, [getTitleAnimation, titleControls]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getRandomColor = () => {
     const hue = Math.floor(Math.random() * 360);
