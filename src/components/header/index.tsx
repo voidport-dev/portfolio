@@ -6,11 +6,13 @@ import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { useSetAtom } from "jotai";
 import { cursorAtom } from "@/store";
 
-enum AnimationStage {
-  INITIAL,
-  CENTERED,
-  ENDED,
-}
+const AnimationStage = {
+  INITIAL: 0,
+  CENTERED: 1,
+  ENDED: 2,
+} as const;
+
+type AnimationStage = (typeof AnimationStage)[keyof typeof AnimationStage];
 
 type AnimationStyle = {
   position?: string;
@@ -79,7 +81,9 @@ const CHARS = NAME.split("");
 export const Header = () => {
   const setCursor = useSetAtom(cursorAtom);
   const setCursorRef = useRef(setCursor);
-  const [animationStage, setAnimationStage] = useState(AnimationStage.INITIAL);
+  const [animationStage, setAnimationStage] = useState<AnimationStage>(
+    AnimationStage.INITIAL
+  );
   const titleControls = useAnimation();
 
   const [isSmallScreen, setIsSmallScreen] = useState(
@@ -130,9 +134,11 @@ export const Header = () => {
     let cumulativeDelay = 0;
     const timeouts: NodeJS.Timeout[] = [];
 
-    const stages = Object.values(AnimationStage).filter(
-      (value) => typeof value === "number"
-    ) as AnimationStage[];
+    const stages: AnimationStage[] = [
+      AnimationStage.INITIAL,
+      AnimationStage.CENTERED,
+      AnimationStage.ENDED,
+    ];
 
     stages.forEach((stage, index) => {
       const durationOfPreviousStage =
