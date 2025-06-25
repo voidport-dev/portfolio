@@ -114,7 +114,7 @@ const ProjectCard = ({
                         href={companyUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xl hover:cursor-none hover:opacity-80"
+                        className="text-gray-300 text-xl hover:cursor-none hover:opacity-80"
                       >
                         {company}
                       </a>
@@ -159,7 +159,7 @@ const ProjectCard = ({
               pagination={true}
               navigation={false}
               modules={[EffectCoverflow, Pagination]}
-              className="mySwiper w-80 h-40"
+              className="mySwiper w-full aspect-video md:w-80 md:h-40 lg:w-96 lg:h-52 flex justify-center items-center"
               speed={600}
               spaceBetween={30}
               touchRatio={1}
@@ -176,7 +176,7 @@ const ProjectCard = ({
                 <SwiperSlide key={index}>
                   <img
                     src={image}
-                    className="max-w-full max-h-full object-contain rounded-lg mx-auto"
+                    className="w-full max-h-full object-contain rounded-lg mx-auto"
                     alt={`${title} project image ${index + 1}`}
                     onClick={() => openModal(index)}
                     draggable={false}

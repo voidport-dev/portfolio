@@ -16,7 +16,7 @@ function App() {
     <div
       className={`h-screen ${
         isGrabbing ? "cursor-grabbing" : "cursor-none"
-      } select-none`}
+      } select-none overflow-x-hidden`}
     >
       <CustomCursor />
       <AnimatedBackground />

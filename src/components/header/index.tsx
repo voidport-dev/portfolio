@@ -1,7 +1,7 @@
 import { MailIcon } from "lucide-react";
 import GithubIcon from "@assets/github.svg?react";
 import LinkedInIcon from "@assets/linkedin.svg?react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { AnimatePresence, motion, useAnimation } from "motion/react";
 import { useSetAtom } from "jotai";
 import { cursorAtom } from "@/store";
@@ -41,7 +41,7 @@ const TITLE_ANIMATIONS: Record<AnimationStage, AnimationStyle> = {
     position: "fixed",
     top: "50%",
     left: "50%",
-    transform: "translate(-50%, -50%) rotate3d(1, 1, 1, 360deg)",
+    transform: "translate(-50%, -50%)",
     fontSize: "28px",
   },
   [AnimationStage.ENDED]: {
@@ -82,6 +82,46 @@ export const Header = () => {
   const [animationStage, setAnimationStage] = useState(AnimationStage.INITIAL);
   const titleControls = useAnimation();
 
+  const [isSmallScreen, setIsSmallScreen] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 640 : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => setIsSmallScreen(window.innerWidth < 640);
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const getTitleAnimation = useCallback(
+    (stage: AnimationStage): AnimationStyle => {
+      switch (stage) {
+        case AnimationStage.INITIAL:
+          return {
+            ...TITLE_ANIMATIONS[stage],
+            fontSize: isSmallScreen ? "12px" : "16px",
+          };
+        case AnimationStage.CENTERED:
+          return {
+            ...TITLE_ANIMATIONS[stage],
+            fontSize: isSmallScreen ? "18px" : "24px",
+          };
+        case AnimationStage.ENDED:
+          return {
+            ...TITLE_ANIMATIONS[stage],
+            fontSize: isSmallScreen ? "14px" : "24px",
+          };
+        default:
+          return TITLE_ANIMATIONS[stage];
+      }
+    },
+    [isSmallScreen]
+  );
+
   useEffect(() => {
     setCursorRef.current = setCursor;
   }, [setCursor]);
@@ -101,7 +141,7 @@ export const Header = () => {
 
       const timeoutId = setTimeout(() => {
         setAnimationStage(stage);
-        titleControls.start(TITLE_ANIMATIONS[stage]);
+        titleControls.start(getTitleAnimation(stage));
       }, cumulativeDelay);
       timeouts.push(timeoutId);
     });
@@ -109,7 +149,7 @@ export const Header = () => {
     return () => {
       timeouts.forEach((timeout) => clearTimeout(timeout));
     };
-  }, [titleControls]);
+  }, [getTitleAnimation, titleControls]);
 
   const getRandomColor = () => {
     const hue = Math.floor(Math.random() * 360);
@@ -153,7 +193,7 @@ export const Header = () => {
 
       <motion.h1
         className="z-11 text-xs flex gap-0.25 fixed top-4 left-4"
-        initial={TITLE_ANIMATIONS[AnimationStage.INITIAL]}
+        initial={getTitleAnimation(AnimationStage.INITIAL)}
         animate={titleControls}
       >
         {CHARS.map((char, index) => (

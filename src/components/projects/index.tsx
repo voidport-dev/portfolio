@@ -188,7 +188,7 @@ const projectsData = [
 
 export const Projects = () => {
   return (
-    <motion.div className="w-full flex flex-col justify-center items-start gap-4 p-4 md:p-12">
+    <motion.div className="w-screen flex flex-col justify-center items-start gap-4 px-4 md:px-12">
       <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center w-full">
         Projects I've built over the past{" "}
         {calculateDuration(new Date(2021, 3, 1), new Date())}
