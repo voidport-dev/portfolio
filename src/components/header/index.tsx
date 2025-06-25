@@ -25,7 +25,7 @@ export const Header = () => {
           <GithubIcon className="w-6 h-6" />
         </a>
         <a
-          href="https://www.linkedin.com/in/axndrpr/"
+          href="https://www.linkedin.com/in/xndrpr/"
           target="_blank"
           className="hover:opacity-60 cursor-pointer ease-in-out duration-300 w-8 h-8 flex items-center justify-center"
         >
