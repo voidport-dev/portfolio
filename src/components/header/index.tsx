@@ -117,7 +117,7 @@ export const Header = () => {
         case AnimationStage.ENDED:
           return {
             ...TITLE_ANIMATIONS[stage],
-            fontSize: isSmallScreen ? "14px" : "24px",
+            fontSize: isSmallScreen ? "18px" : "24px",
           };
         default:
           return TITLE_ANIMATIONS[stage];
@@ -218,7 +218,7 @@ export const Header = () => {
           </motion.span>
         ))}
       </motion.h1>
-      <div className="fixed top-8 left-0 md:top-0 md:left-[unset] md:right-0 flex gap-2 m-4 z-2">
+      <div className="fixed top-8 left-0 md:top-0 md:left-[unset] md:right-0 flex gap-2 mt-2 md:mt-4 md:m-4 z-2">
         <motion.a
           href="mailto:axndrpr@gmail.com"
           target="_blank"

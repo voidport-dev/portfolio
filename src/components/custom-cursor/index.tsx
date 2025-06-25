@@ -19,6 +19,13 @@ export const CustomCursor = () => {
     };
   }, [position]);
 
+  if (
+    typeof window !== "undefined" &&
+    window.matchMedia("(pointer: coarse)").matches
+  ) {
+    return null;
+  }
+
   if (cursor.isGrabbing) {
     return null;
   }
