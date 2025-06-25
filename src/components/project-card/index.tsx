@@ -1,12 +1,16 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";
+import { EffectCoverflow, Pagination } from "swiper/modules";
 import TSIcon from "@assets/typescript.svg?react";
 import { useRef, useState } from "react";
-import { ArrowLeftIcon, ArrowRightIcon, XIcon } from "lucide-react";
+import { XIcon, ChevronLeft, ChevronRight } from "lucide-react";
+import { Swiper as SwiperType } from "swiper";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { useSetAtom } from "jotai";
+import { cursorAtom } from "@/store";
 
 interface ProjectCardProps {
   title: string;
@@ -41,13 +45,16 @@ const ProjectCard = ({
   companyUrl,
   employmentType,
 }: ProjectCardProps) => {
+  const setCursor = useSetAtom(cursorAtom);
   const outsideRef = useRef<HTMLDivElement>(null);
+  const modalSwiperRef = useRef<SwiperType>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
     null
   );
 
   const openModal = (imageIndex: number) => {
     setSelectedImageIndex(imageIndex);
+    setCursor({ isGrabbing: true, isHovering: false });
   };
 
   const closeModal = () => {
@@ -55,18 +62,14 @@ const ProjectCard = ({
   };
 
   const goToPrevious = () => {
-    if (selectedImageIndex !== null) {
-      setSelectedImageIndex(
-        selectedImageIndex === 0 ? images.length - 1 : selectedImageIndex - 1
-      );
+    if (modalSwiperRef.current) {
+      modalSwiperRef.current.slidePrev();
     }
   };
 
   const goToNext = () => {
-    if (selectedImageIndex !== null) {
-      setSelectedImageIndex(
-        selectedImageIndex === images.length - 1 ? 0 : selectedImageIndex + 1
-      );
+    if (modalSwiperRef.current) {
+      modalSwiperRef.current.slideNext();
     }
   };
 
@@ -83,6 +86,8 @@ const ProjectCard = ({
   };
 
   const handleModalClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
     if (e.target === e.currentTarget) {
       closeModal();
     }
@@ -93,15 +98,7 @@ const ProjectCard = ({
   };
 
   return (
-    <div
-      className="w-full flex justify-center items-center"
-      ref={outsideRef}
-      onClick={(e) => {
-        if (e.target === outsideRef.current) {
-          closeModal();
-        }
-      }}
-    >
+    <div className="w-full flex justify-center items-center" ref={outsideRef}>
       <div className="flex flex-col gap-4 justify-center items-center w-full">
         <div className="flex items-start lg:items-center justify-between px-4 md:8 lg:16 xl:px-24 2xl:px-48 gap-4 w-full lg:flex-row flex-col">
           <div className="flex items-start justify-center gap-4">
@@ -117,7 +114,7 @@ const ProjectCard = ({
                         href={companyUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xl hover:cursor-pointer hover:opacity-80"
+                        className="text-xl hover:cursor-none hover:opacity-80"
                       >
                         {company}
                       </a>
@@ -152,25 +149,37 @@ const ProjectCard = ({
               centeredSlides={true}
               slidesPerView={"auto"}
               coverflowEffect={{
-                rotate: 50,
+                rotate: 0,
                 stretch: 0,
-                depth: 100,
+                depth: 200,
                 modifier: 1,
-                slideShadows: true,
+                slideShadows: false,
               }}
               loop
               pagination={true}
-              navigation={true}
-              modules={[EffectCoverflow, Pagination, Navigation]}
+              navigation={false}
+              modules={[EffectCoverflow, Pagination]}
               className="mySwiper w-80 h-40"
+              speed={600}
+              spaceBetween={30}
+              touchRatio={1}
+              touchAngle={45}
+              resistance={true}
+              resistanceRatio={0.85}
+              watchSlidesProgress={true}
+              preventInteractionOnTransition={false}
+              threshold={5}
+              longSwipesRatio={0.5}
+              longSwipesMs={300}
             >
               {images.map((image, index) => (
                 <SwiperSlide key={index}>
                   <img
                     src={image}
-                    className="w-full h-full object-contain rounded-xl cursor-pointer hover:opacity-80 transition-opacity"
+                    className="max-w-full max-h-full object-contain rounded-lg mx-auto"
                     alt={`${title} project image ${index + 1}`}
                     onClick={() => openModal(index)}
+                    draggable={false}
                   />
                 </SwiperSlide>
               ))}
@@ -181,39 +190,84 @@ const ProjectCard = ({
 
       {selectedImageIndex !== null && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blue bg-opacity-75 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/80 bg-opacity-75 flex items-center justify-center z-50"
           onKeyDown={handleKeyDown}
           onClick={handleModalClick}
           tabIndex={0}
         >
-          <div className="relative max-w-4xl max-h-[90vh] p-4">
+          <div className="relative max-w-4xl max-h-[90vh] p-4 w-full">
             <button
               onClick={closeModal}
-              className="absolute top-0 right-0 text-white bg-gray-800 hover:bg-gray-700 rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold z-10"
+              className="absolute top-2 right-2 text-white bg-gray-800 hover:bg-gray-700 rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold z-20"
             >
-              <XIcon />
+              <XIcon size={16} />
             </button>
 
             <button
               onClick={goToPrevious}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white bg-gray-800 hover:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold z-10"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white bg-gray-800 hover:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center z-20 transition-colors cursor-pointer"
             >
-              <ArrowLeftIcon />
+              <ChevronLeft size={20} />
             </button>
 
             <button
               onClick={goToNext}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white bg-gray-800 hover:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold z-10"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white bg-gray-800 hover:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center z-20 transition-colors cursor-pointer"
             >
-              <ArrowRightIcon />
+              <ChevronRight size={20} />
             </button>
 
-            <img
-              src={images[selectedImageIndex]}
-              className="max-w-full max-h-full object-contain rounded-lg"
-              alt={`${title} project image ${selectedImageIndex + 1}`}
-              onClick={handleImageClick}
-            />
+            <Swiper
+              onSwiper={(swiper) => {
+                modalSwiperRef.current = swiper;
+                swiper.slideToLoop(selectedImageIndex, 0);
+              }}
+              effect={"coverflow"}
+              grabCursor={true}
+              centeredSlides={true}
+              slidesPerView={"auto"}
+              coverflowEffect={{
+                rotate: 0,
+                stretch: 0,
+                depth: 200,
+                modifier: 1,
+                slideShadows: false,
+              }}
+              loop
+              pagination={true}
+              navigation={false}
+              modules={[EffectCoverflow, Pagination]}
+              className="mySwiper w-full h-full"
+              speed={600}
+              spaceBetween={120}
+              touchRatio={1}
+              touchAngle={45}
+              resistance={true}
+              resistanceRatio={0.85}
+              watchSlidesProgress={true}
+              preventInteractionOnTransition={false}
+              threshold={5}
+              longSwipesRatio={0.5}
+              longSwipesMs={300}
+              onDragStart={() =>
+                setCursor({ isGrabbing: true, isHovering: false })
+              }
+              onDragEnd={() =>
+                setCursor({ isGrabbing: false, isHovering: false })
+              }
+            >
+              {images.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <img
+                    src={image}
+                    className="max-w-full max-h-[65vh] object-contain rounded-lg mx-auto"
+                    alt={`${title} project image ${index + 1}`}
+                    onClick={handleImageClick}
+                    draggable={false}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
       )}
