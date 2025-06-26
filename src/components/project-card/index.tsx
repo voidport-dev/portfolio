@@ -59,6 +59,7 @@ const ProjectCard = ({
 
   const closeModal = () => {
     setSelectedImageIndex(null);
+    setCursor({ isGrabbing: false, isHovering: false });
   };
 
   const goToPrevious = () => {

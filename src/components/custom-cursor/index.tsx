@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { useAtomValue } from "jotai";
 import { cursorAtom } from "../../store";
@@ -31,16 +30,13 @@ export const CustomCursor = () => {
   }
 
   return (
-    <motion.div
-      className="z-[9999] fixed top-0 left-0 w-4 h-4 bg-white rounded-full border-2 border-black pointer-events-none"
-      animate={{
-        x: position.x,
-        y: position.y,
-        filter: cursor.isHovering ? "blur(1px)" : "blur(0px)",
-        opacity: cursor.isHovering ? 0.8 : 1,
-      }}
-      transition={{
-        duration: 0,
+    <div
+      className={`z-[9999] fixed top-0 left-0 w-4 h-4 bg-white rounded-full border-2 border-black pointer-events-none transform -translate-x-1/2 -translate-y-1/2 ${
+        cursor.isHovering ? "opacity-60" : "opacity-100"
+      }`}
+      style={{
+        left: position.x,
+        top: position.y,
       }}
     />
   );
