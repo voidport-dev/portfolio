@@ -49,7 +49,7 @@ const projectsData = [
     description:
       "A mobile app for controlling a robot using a mobile app.. \n\nKey achievements:\n • Implemented a gRPC-based communication between the app and the robot\n • Implemented WebRTC-based video and audio streaming(push/pull) both locally and remotely \n• Implemented Native Modules for the app to interact with the Tencent SDK",
     images: FLINT_IMAGES,
-    dates: "Mar. 2025 - Present",
+    dates: "Feb. 2025 - Present",
     company: "React Native Developer at Flint Robotics",
     employmentType: "Full-time",
     duration: calculateDuration(new Date(2025, 2, 1), new Date()),
