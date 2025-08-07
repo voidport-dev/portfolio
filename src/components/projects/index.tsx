@@ -90,7 +90,7 @@ const projectsData = [
     logo: FlappyDuckLogo,
     title: "Flappy Duck",
     description:
-      "A Flappy Bird-like game built with React as a Telegram Mini App\n\nKey achievements:\n • Implemented most of the UI including: store, wallet, events, etc.\n• Implemented optimized communcation with Backend using React Query\n• Used telegram sdk to use features like: haptic feedback, theme change, safe area, etc.\n• Used react-spring to create smooth animations for modals/botoomsheets/tabs/etc.\n • Created flexible themeing system that works across multiple apps in the Duck ecosystem, and is integrated with telegram themes.",
+      "A Flappy Bird-like game built with React as a Telegram Mini App\n\nKey achievements:\n • Implemented most of the UI including: store, wallet, events, etc.\n• Implemented optimized communication with Backend using React Query\n• Used telegram sdk to use features like: haptic feedback, theme change, safe area, etc.\n• Used react-spring to create smooth animations for modals/botoomsheets/tabs/etc.\n • Created flexible themeing system that works across multiple apps in the Duck ecosystem, and is integrated with telegram themes.",
     images: FLAPPY_DUCK_IMAGES,
     dates: "Aug. 2024 - Present",
     company: "React Frontend Developer at Duck Coin",
