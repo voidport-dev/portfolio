@@ -68,7 +68,7 @@ const projectsData = [
     logo: DuckWalletLogo,
     title: "Duck Wallet",
     description:
-      "A Telergam Mini App-based Custodial Wallet in Duck Ecosystem\n\nKey Achievements:\n • Created basic components of app\n • Implemented communcation with backend\n • Implemented the UI\n • Wrote Unit Tests to make sure the user's finances are safe.",
+      "A Telergam Mini App-based Custodial Wallet in Duck Ecosystem\n\nKey Achievements:\n • Created basic components of app\n • Implemented communication with backend\n • Implemented the UI\n • Wrote Unit Tests to make sure the user's finances are safe.",
     images: DUCK_WALLET_IMAGES,
     dates: "June 2025 - Present",
     company: "React Frontend Developer at Duck Coin",
