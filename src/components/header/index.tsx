@@ -182,24 +182,6 @@ export const Header = () => {
               animate={{ opacity: 0.8, backdropFilter: "blur(16px)" }}
               exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
             ></motion.div>
-            <motion.div
-              className="absolute inset-0 opacity-40 z-9"
-              style={{
-                backgroundImage: `
-               linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
-               linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px)
-             `,
-                backgroundSize: "50px 50px",
-              }}
-              animate={{
-                backgroundPosition: ["0% 0%", "100% 100%"],
-              }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
           </>
         )}
       </AnimatePresence>
