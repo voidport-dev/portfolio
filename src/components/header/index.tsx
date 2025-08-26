@@ -241,7 +241,7 @@ export const Header = () => {
           axndrpr@gmail.com
         </motion.a>
         <a
-          href="https://github.com/alexanderprokopenko"
+          href="https://github.com/xndrpr"
           target="_blank"
           className="cursor-none ease-in-out duration-300 w-8 h-8 flex items-center justify-center hover:shadow-gray-400 hover:opacity-80 hover:shadow-md rounded-full"
           onMouseEnter={() =>
