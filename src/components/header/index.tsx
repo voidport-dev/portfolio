@@ -236,7 +236,7 @@ export const Header = () => {
           <GithubIcon className="w-6 h-6" />
         </a>
         <a
-          href="https://www.linkedin.com/in/xndrpr/"
+          href="https://www.linkedin.com/in/alex-prok/"
           target="_blank"
           className="cursor-none ease-in-out duration-300 w-8 h-8 flex items-center justify-center hover:shadow-blue-400 hover:opacity-80 hover:shadow-md rounded-full"
           onMouseEnter={() =>
